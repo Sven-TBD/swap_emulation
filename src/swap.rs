@@ -23,7 +23,13 @@ impl Pool{
 
     pub fn user_buy_token(&mut self,dETH:u128) -> &mut Self{
         self.eth_amount += dETH;
-        self.quote_token_amount = self.k/self.eth_amount;
+        self.quote_token_amount = self.k*1000_000/self.eth_amount;
+        self.update_knp()
+    }
+
+    fn update_knp(&mut self)-> &mut Self{
+        self.k = self.eth_amount*self.quote_token_amount;
+        self.price = self.quote_token_amount/self.eth_amount;
         self.print_status();
         self
     }
